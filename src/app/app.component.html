@@ -1,0 +1,24 @@
+@if (isAuthenticated()) {
+<app-header (toggleSidenavEvent)="toggleSidenav()" />
+
+<div class="main-container">
+  <div
+    class="overlay"
+    [class.active]="sidenavOpen && isMobile()"
+    (click)="closeSidenavOnOutsideClick()"
+  ></div>
+  <app-sidenav [isOpen]="sidenavOpen" [isMobile]="isMobile()" />
+
+  <div class="content-wrapper">
+    <section>
+      <div class="content-container">
+        <router-outlet />
+      </div>
+    </section>
+
+    <app-footer></app-footer>
+  </div>
+</div>
+} @else {
+<router-outlet />
+}

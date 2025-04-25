@@ -1,0 +1,11 @@
+@if (show) {
+<div class="popup-backdrop">
+  <div class="popup-box">
+    <h2>{{ title }}</h2>
+    <br />
+    <p>{{ message }}</p>
+    <br />
+    <button (click)="close()" class="btn-default">Fechar</button>
+  </div>
+</div>
+}

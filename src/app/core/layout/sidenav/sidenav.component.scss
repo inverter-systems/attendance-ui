@@ -1,0 +1,69 @@
+@use '../../../styles/variables' as v;
+
+.sidenav {
+    width: v.$sidenav-width;
+    background-color: v.$bg-white;
+    border-right: 1px solid v.$border-color;
+    height: 100%;
+    overflow-y: auto;
+    transition: transform 0.3s ease;
+    
+    &.active {
+        position: fixed;
+        left: 0;
+        top: v.$header-height;
+        bottom: 0;
+        transform: translateX(-100%);
+        z-index: 1000;
+    }
+}
+
+.sidenav-nav {
+    padding: 20px 0;
+    
+    ul {
+        list-style: none;
+    }
+    
+    li {
+        margin-bottom: 5px;
+    }
+    
+    a {
+        display: flex;
+        align-items: center;
+        padding: 12px 20px;
+        color: v.$text-secondary;
+        text-decoration: none;
+        transition: background-color 0.2s ease;
+        
+        &:hover {
+            background-color: v.$bg-hover;
+            color: v.$primary-color;
+        }
+    }
+}
+
+.nav-icon {
+    margin-right: 10px;
+    font-size: 1.1rem;
+    width: 20px;
+    text-align: center;
+}
+
+@media (max-width: v.$breakpoint-md) {
+    .sidenav {
+        &.mobile {
+            position: fixed;
+            left: 0;
+            top: v.$header-height;
+            bottom: 0;
+            transform: translateX(-100%);
+            z-index: 1000;
+            
+            &.active {
+                transform: translateX(0);
+            }
+        }
+    }
+}

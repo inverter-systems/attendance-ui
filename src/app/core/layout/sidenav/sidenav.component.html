@@ -1,0 +1,17 @@
+<nav class="sidenav" [class.active]="isOpen" [class.mobile]="isMobile">
+    <div class="sidenav-nav">
+        <ul>
+            @for (item of navItems; track item.route) {
+              <li>
+                <a 
+                  [routerLink]="item.route" 
+                  routerLinkActive="active" 
+                  [routerLinkActiveOptions]="{exact: item.route === '/'}">
+                  <span class="nav-icon">{{ item.icon }}</span>
+                  {{ item.label }}
+                </a>
+              </li>
+            }
+        </ul>
+    </div>
+</nav>

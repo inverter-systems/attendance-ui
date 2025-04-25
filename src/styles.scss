@@ -1,0 +1,62 @@
+@use "./app/styles/variables" as v;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  background-color: v.$bg-light;
+  color: v.$text-color;
+}
+
+h1 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+  color: v.$text-color;
+}
+
+p {
+  color: v.$text-secondary;
+  line-height: 1.6;
+}
+
+.card {
+  background-color: v.$bg-white;
+  border-radius: 8px;
+  box-shadow: v.$box-shadow;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.btn-default {
+  width: 100%;
+  padding: 12px;
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #3a7bc8;
+  }
+
+  &:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+}
