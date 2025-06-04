@@ -1,13 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  Validators,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, ActivatedRoute, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../core/auth/services/auth.service';
+import { PersonService } from '../../services/person.service';
 
 @Component({
   selector: 'app-login',
@@ -27,7 +23,8 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private personService: PersonService,
   ) {
     // Redirecionar para a home se já estiver logado
     if (this.authService.isAuthenticated()) {
@@ -59,16 +56,27 @@ export class LoginComponent implements OnInit {
     }
 
     this.loading = true;
-    this.authService
-      .login(this.f['username'].value, this.f['password'].value)
-      .subscribe({
-        next: () => {
+    this.authService.login(this.f['username'].value, this.f['password'].value).subscribe({
+      next: () => {
+        this.checkRegistrationIsFull(this.f['username'].value);
+      },
+      error: (e) => {
+        this.error = e?.errors?.[0] ? e.errors[0] : e;
+        this.loading = false;
+      },
+    });
+  }
+
+  private checkRegistrationIsFull(username: string) {
+    this.personService.checkRegistrationIsFull(username).subscribe({
+      next: (isRegistrationFull) => {
+        if (isRegistrationFull) {
+          this.authService.setIsFullRegisteredUser();
           this.router.navigate([this.returnUrl]);
-        },
-        error: (error) => {
-          this.error = error;
-          this.loading = false;
-        },
-      });
+        } else {
+          this.router.navigate(['/auth/full-register']);
+        }
+      },
+    });
   }
 }

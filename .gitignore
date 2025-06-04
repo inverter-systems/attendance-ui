@@ -42,3 +42,6 @@ testem.log
 Thumbs.db
 .editorconfig
 package-lock.json
+
+# inverter systems
+.vscode/

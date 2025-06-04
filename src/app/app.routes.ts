@@ -1,18 +1,17 @@
-import { Routes } from '@angular/router';
-import { authGuard } from './core/auth/guards/auth.guard';
-import { roleGuard } from './core/auth/guards/role.guard';
-import { DashboardComponent } from './features/pages/dashboard/dashboard.component';
+import { Routes } from "@angular/router";
+import { AuthGuard } from "./core/auth/guards/auth.guard";
+import { DashboardComponent } from "./features/pages/dashboard/dashboard.component";
 
 export const routes: Routes = [
   {
-    path: '',
-    redirectTo: 'pages/dashboard',
-    pathMatch: 'full',
+    path: "",
+    redirectTo: "pages/dashboard",
+    pathMatch: "full",
   },
   {
-    path: 'auth',
+    path: "auth",
     loadChildren: () =>
-      import('./features/auth/auth.routes').then((m) => m.AUTH_ROUTES),
+      import("./features/auth/auth.routes").then((m) => m.AUTH_ROUTES),
   },
   /* {
     path: 'dashboard',
@@ -20,10 +19,10 @@ export const routes: Routes = [
     canActivate: [authGuard],
   },*/
   {
-    path: 'pages',
+    path: "pages",
     loadChildren: () =>
-      import('./features/pages/pages.routes').then((m) => m.PAGES_ROUTES),
-    canActivate: [authGuard],
+      import("./features/pages/pages.routes").then((m) => m.PAGES_ROUTES),
+    canActivate: [AuthGuard],
   },
   /* {
     path: 'users', // Define o caminho da URL para acessar esta rota
@@ -44,8 +43,8 @@ export const routes: Routes = [
     data: { roles: ['ADMIN'] }
   }, */
   {
-    path: '**',
-    redirectTo: 'dashboard',
+    path: "**",
+    redirectTo: "dashboard",
   },
 ];
 

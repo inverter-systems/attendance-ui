@@ -24,8 +24,8 @@ export class AppComponent {
     this.authService = authService;
   }
 
-  isAuthenticated(): boolean {
-    return this.authService.isAuthenticated();
+  isFullRegisteredUser(): boolean {
+    return this.authService.isFullRegisteredUser();
   }
 
   toggleSidenav(): void {

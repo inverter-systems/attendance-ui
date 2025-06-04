@@ -1,69 +1,108 @@
 @use '../../../styles/variables' as v;
 
 .sidenav {
-    width: v.$sidenav-width;
-    background-color: v.$bg-white;
-    border-right: 1px solid v.$border-color;
-    height: 100%;
-    overflow-y: auto;
-    transition: transform 0.3s ease;
-    
-    &.active {
-        position: fixed;
-        left: 0;
-        top: v.$header-height;
-        bottom: 0;
-        transform: translateX(-100%);
-        z-index: 1000;
-    }
+  width: v.$sidenav-width;
+  background-color: v.$bg-white;
+  border-right: 1px solid v.$border-color;
+  height: 100%;
+  overflow-y: auto;
+  transition: transform 0.3s ease;
+  position: relative;
+  padding-bottom: 50px;
+
+  &.active {
+    position: fixed;
+    left: 0;
+    top: v.$header-height;
+    bottom: 0;
+    transform: translateX(-100%);
+    z-index: 1000;
+  }
+}
+
+.sidenav-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  background-color: rgba(211, 211, 211, 0.15);
+
+  display: flex;
+  align-items: center;
+  padding: 0 10px; /* opcional */
 }
 
 .sidenav-nav {
-    padding: 20px 0;
-    
-    ul {
-        list-style: none;
+  padding: 20px 0;
+
+  ul {
+    list-style: none;
+  }
+
+  li {
+    margin-bottom: 5px;
+  }
+
+  a {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    color: v.$text-secondary;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: v.$bg-hover;
+      color: v.$primary-color;
     }
-    
-    li {
-        margin-bottom: 5px;
-    }
-    
-    a {
-        display: flex;
-        align-items: center;
-        padding: 12px 20px;
-        color: v.$text-secondary;
-        text-decoration: none;
-        transition: background-color 0.2s ease;
-        
-        &:hover {
-            background-color: v.$bg-hover;
-            color: v.$primary-color;
-        }
-    }
+  }
 }
 
 .nav-icon {
-    margin-right: 10px;
-    font-size: 1.1rem;
-    width: 20px;
-    text-align: center;
+  margin-right: 10px;
+  font-size: 1.1rem;
+  width: 20px;
+  text-align: center;
 }
 
 @media (max-width: v.$breakpoint-md) {
-    .sidenav {
-        &.mobile {
-            position: fixed;
-            left: 0;
-            top: v.$header-height;
-            bottom: 0;
-            transform: translateX(-100%);
-            z-index: 1000;
-            
-            &.active {
-                transform: translateX(0);
-            }
-        }
+  .sidenav {
+    &.mobile {
+      position: fixed;
+      left: 0;
+      top: v.$header-height;
+      bottom: 0;
+      transform: translateX(-100%);
+      z-index: 1000;
+
+      &.active {
+        transform: translateX(0);
+      }
     }
+  }
+}
+
+.btn {
+  // Estilo base
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border: none;
+  border-radius: 0.25rem;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+
+  // Cores principais
+  background-color: v.$primary-color;
+  color: white;
+
+  // Efeito hover
+  &:hover {
+    background-color: v.$primary-color-hover;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
 }

@@ -1,0 +1,358 @@
+<div class="register-container">
+  <div class="register-card">
+    <div class="register-header">
+      <h1>Cadastro Completo</h1>
+      <p>Preencha seus dados pessoais ou da sua empresa</p>
+    </div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <!-- Seletor de Tipo de Pessoa -->
+      <div class="form-group">
+        <label>Tipo de Cadastro</label>
+        <div class="radio-group">
+          <label>
+            <input type="radio" formControlName="personType" value="NATURAL" (change)="onPersonTypeChange()" />
+            Pessoa Física
+          </label>
+          <label>
+            <input type="radio" formControlName="personType" value="LEGAL" (change)="onPersonTypeChange()" />
+            Pessoa Jurídica
+          </label>
+        </div>
+      </div>
+
+      <!-- Dados Comuns -->
+      <div class="form-group">
+        <label for="fullName">Nome Completo / Razão Social</label>
+        <input type="text" formControlName="fullName" id="fullName" [class.is-invalid]="submitted && f['fullName'].errors" placeholder="Digite o nome completo ou razão social" />
+        @if (submitted && f['fullName'].errors) {
+          <div class="error-message">Nome completo é obrigatório</div>
+        }
+      </div>
+
+      <!-- Dados Específicos para Pessoa Física -->
+      @if (registerForm.get('personType')?.value === 'NATURAL') {
+        <div class="form-group">
+          <label for="ssn">CPF</label>
+          <input type="text" formControlName="ssn" id="ssn" mask="000.000.000-00" [class.is-invalid]="submitted && f['ssn'].errors" placeholder="Digite seu CPF" />
+          @if (submitted && f['ssn'].errors) {
+            <div class="error-message">
+              @if (f['ssn'].errors['required']) {
+                <div>CPF é obrigatório</div>
+              }
+              @if (f['ssn'].errors['cpf']) {
+                <div>CPF inválido</div>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="birthDate">Data de Nascimento</label>
+            <input type="date" formControlName="birthDate" id="birthDate" [class.is-invalid]="submitted && f['birthDate'].errors" />
+            @if (submitted && f['birthDate'].errors) {
+              <div class="error-message">Data de nascimento é obrigatória</div>
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="gender">Gênero</label>
+            <select formControlName="gender" id="gender" [class.is-invalid]="submitted && f['gender'].errors">
+              <option value="">Selecione</option>
+              <option value="MALE">Masculino</option>
+              <option value="FEMALE">Feminino</option>
+              <option value="OTHER">Outro</option>
+              <option value="PREFER_NOT_TO_SAY">Prefiro não informar</option>
+            </select>
+            @if (submitted && f['gender'].errors) {
+              <div class="error-message">Gênero é obrigatório</div>
+            }
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="nationality">Nacionalidade</label>
+            <input type="text" formControlName="nationality" id="nationality" [class.is-invalid]="submitted && f['nationality'].errors" placeholder="Digite sua nacionalidade" />
+            @if (submitted && f['nationality'].errors) {
+              <div class="error-message">Nacionalidade é obrigatória</div>
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="maritalStatus">Estado Civil</label>
+            <select formControlName="maritalStatus" id="maritalStatus" [class.is-invalid]="submitted && f['maritalStatus'].errors">
+              <option value="">Selecione</option>
+              <option value="SINGLE">Solteiro(a)</option>
+              <option value="MARRIED">Casado(a)</option>
+              <option value="DIVORCED">Divorciado(a)</option>
+              <option value="WIDOWED">Viúvo(a)</option>
+              <option value="SEPARATED">Separado(a)</option>
+            </select>
+            @if (submitted && f['maritalStatus'].errors) {
+              <div class="error-message">Estado civil é obrigatório</div>
+            }
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="professionalOccupation">Profissão</label>
+          <input type="text" formControlName="professionalOccupation" id="professionalOccupation" [class.is-invalid]="submitted && f['professionalOccupation'].errors" placeholder="Digite sua profissão" />
+          @if (submitted && f['professionalOccupation'].errors) {
+            <div class="error-message">Profissão é obrigatória</div>
+          }
+        </div>
+      }
+
+      <!-- Dados Específicos para Pessoa Jurídica -->
+      @if (registerForm.get('personType')?.value === 'LEGAL') {
+        <div class="form-group">
+          <label for="tradeName">Nome Fantasia</label>
+          <input type="text" formControlName="tradeName" id="tradeName" [class.is-invalid]="submitted && f['tradeName'].errors" placeholder="Digite o nome fantasia" />
+          @if (submitted && f['tradeName'].errors) {
+            <div class="error-message">Nome fantasia é obrigatório</div>
+          }
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="ein">CNPJ</label>
+            <input type="text" formControlName="ein" id="ein" mask="00.000.000/0000-00" [class.is-invalid]="submitted && f['ein'].errors" placeholder="Digite o CNPJ" />
+            @if (submitted && f['ein'].errors) {
+              <div class="error-message">
+                @if (f['ein'].errors['required']) {
+                  <div>CNPJ é obrigatório</div>
+                }
+                @if (f['ein'].errors['minlength']) {
+                  <div>CNPJ deve ter 14 dígitos</div>
+                }
+              </div>
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="foundationDate">Data de Fundação</label>
+            <input type="date" formControlName="foundationDate" id="foundationDate" [class.is-invalid]="submitted && f['foundationDate'].errors" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="stateRegistration">Inscrição Estadual</label>
+            <input type="text" formControlName="stateRegistration" id="stateRegistration" [class.is-invalid]="submitted && f['stateRegistration'].errors" placeholder="Digite a inscrição estadual" />
+            @if (submitted && f['stateRegistration'].errors) {
+              <div class="error-message">
+                @if (f['stateRegistration'].errors['required']) {
+                  <div>Inscrição estadual é obrigatória</div>
+                }
+              </div>
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="municipalRegistration">Inscrição Municipal</label>
+            <input type="text" formControlName="municipalRegistration" id="municipalRegistration" [class.is-invalid]="submitted && f['municipalRegistration'].errors" placeholder="Digite a inscrição municipal" />
+            @if (submitted && f['municipalRegistration'].errors) {
+              <div class="error-message">
+                @if (f['municipalRegistration'].errors['required']) {
+                  <div>Inscrição municipal é obrigatória</div>
+                }
+              </div>
+            }
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="companySize">Porte da Empresa</label>
+          <select formControlName="companySize" id="companySize">
+            <option value="">Selecione</option>
+            <option value="MICRO">Microempresa</option>
+            <option value="SMALL">Pequena Empresa</option>
+            <option value="MEDIUM">Média Empresa</option>
+            <option value="LARGE">Grande Empresa</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="legalNature">Natureza Jurídica</label>
+          <input type="text" formControlName="legalNature" id="legalNature" placeholder="Digite a natureza jurídica" />
+        </div>
+
+        <div class="form-group">
+          <label for="primaryActivity">Atividade Principal</label>
+          <input type="text" formControlName="primaryActivity" id="primaryActivity" placeholder="Digite a atividade principal" />
+        </div>
+      }
+
+      <!-- Seção de Endereços (Dinâmica) -->
+      <div class="address-section">
+        <h3>Endereços</h3>
+        <button type="button" class="btn-add" (click)="addAddress()">+ Adicionar Endereço</button>
+
+        @for (address of addresses.controls; track $index; let i = $index) {
+          <div class="address-card" [formGroup]="address">
+            <div class="address-header">
+              <h4>Endereço {{ i + 1 }}</h4>
+              @if (addresses.length > 1) {
+                <button type="button" class="btn-remove" (click)="removeAddress(i)">×</button>
+              }
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label [for]="'zipCode' + i">CEP</label>
+                <input type="text" [id]="'zipCode' + i" formControlName="zipCode" mask="00000-000" placeholder="Digite o CEP" />
+              </div>
+              <div class="form-group">
+                <label [for]="'addressType' + i">Tipo</label>
+                <select [id]="'addressType' + i" formControlName="addressType">
+                  <option value="RESIDENTIAL">Residencial</option>
+                  <option value="COMMERCIAL">Comercial</option>
+                  <option value="OTHER">Outro</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label [for]="'street' + i">Logradouro</label>
+                <input type="text" [id]="'street' + i" formControlName="street" placeholder="Rua/Avenida" />
+              </div>
+              <div class="form-group">
+                <label [for]="'number' + i">Número</label>
+                <input type="text" [id]="'number' + i" formControlName="number" placeholder="Número" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label [for]="'complement' + i">Complemento</label>
+              <input type="text" [id]="'complement' + i" formControlName="complement" placeholder="Complemento" />
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label [for]="'neighborhood' + i">Bairro</label>
+                <input type="text" [id]="'neighborhood' + i" formControlName="neighborhood" placeholder="Bairro" />
+              </div>
+              <div class="form-group">
+                <label [for]="'city' + i">Cidade</label>
+                <input type="text" [id]="'city' + i" formControlName="city" placeholder="Cidade" />
+              </div>
+              <div class="form-group">
+                <label [for]="'state' + i">Estado</label>
+                <input type="text" [id]="'state' + i" formControlName="state" placeholder="UF" />
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- Seção de Contatos (Dinâmica) -->
+      <div class="contacts-section">
+        <h3>Contatos</h3>
+        <button type="button" class="btn-add" (click)="addContact()">+ Adicionar Contato</button>
+
+        @for (contact of contacts.controls; track $index; let i = $index) {
+          <div class="contact-card" [formGroup]="contact">
+            <div class="contact-header">
+              <h4>Contato {{ i + 1 }}</h4>
+              @if (contacts.length > 1) {
+                <button type="button" class="btn-remove" (click)="removeContact(i)">×</button>
+              }
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label [for]="'contactType' + i">Tipo</label>
+                <select [id]="'contactType' + i" formControlName="contactType">
+                  <option value="PHONE">Telefone</option>
+                  <option value="CELLPHONE">Celular</option>
+                  <option value="EMAIL">E-mail</option>
+                  <option value="OTHER">Outro</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label [for]="'value' + i">Valor</label>
+                <input type="text" [id]="'value' + i" formControlName="value" placeholder="Digite o contato" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label [for]="'description' + i">Descrição</label>
+              <input type="text" [id]="'description' + i" formControlName="description" placeholder="Ex: Principal, Recados, etc." />
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- Dados de Usuário (Login) -->
+      <div class="user-section">
+        <h3>Dados de Acesso</h3>
+
+        <div class="form-group">
+          <label for="email">E-mail</label>
+          <input type="email" formControlName="email" id="email" [class.is-invalid]="submitted && f['email'].errors" placeholder="Seu e-mail para login" />
+          @if (submitted && f['email'].errors) {
+            <div class="error-message">
+              @if (f['email'].errors['required']) {
+                <div>E-mail é obrigatório</div>
+              }
+              @if (f['email'].errors['email']) {
+                <div>E-mail inválido</div>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="password">Senha</label>
+            <input type="password" formControlName="password" id="password" [class.is-invalid]="submitted && f['password'].errors" placeholder="Crie uma senha" />
+            @if (submitted && f['password'].errors) {
+              <div class="error-message">
+                @if (f['password'].errors['required']) {
+                  <div>Senha é obrigatória</div>
+                }
+                @if (f['password'].errors['minlength']) {
+                  <div>Senha deve ter pelo menos 6 caracteres</div>
+                }
+              </div>
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="confirmPassword">Confirmar Senha</label>
+            <input type="password" formControlName="confirmPassword" id="confirmPassword" [class.is-invalid]="submitted && f['confirmPassword'].errors" placeholder="Confirme sua senha" />
+            @if (submitted && f['confirmPassword'].errors) {
+              <div class="error-message">
+                @if (f['confirmPassword'].errors['required']) {
+                  <div>Confirmação de senha é obrigatória</div>
+                }
+                @if (f['confirmPassword'].errors['passwordMismatch']) {
+                  <div>As senhas não coincidem</div>
+                }
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <button type="submit" [disabled]="loading" class="btn-register">
+          @if (loading) {
+            <span class="spinner"></span>
+          } @else {
+            <span>Finalizar Cadastro</span>
+          }
+        </button>
+      </div>
+
+      @if (error) {
+        <div class="alert-error">
+          {{ error }}
+        </div>
+      }
+    </form>
+  </div>
+</div>
